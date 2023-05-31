@@ -40,8 +40,8 @@ public class CoverageRunnerTest {
     @Test
     public void testAufgabe2aMbuu()  {
         String datName = pathToExercises+"Aufgabe2a.md";
-        String[] elements= Parser.readData(datName);
-        List<List<Integer>> nums= Utils.mapToList(CoverageRunner.generateMBUU(Parser.numbers(elements)));
+        Parser.readData(datName);
+        CoverageRunner.mbuuRunner();
         List<List<Integer>> result = new ArrayList<>(Arrays.asList(
                 Arrays.asList(0, 0, 0, 1),
                 Arrays.asList(1, 0, 0, 0),
@@ -51,7 +51,7 @@ public class CoverageRunnerTest {
                 Arrays.asList(0, 1, 1, 1),
                 Arrays.asList(1, 1, 1, 0)
         ));
-        boolean isEqual=  Utils.compareLists(nums, result);
+        boolean isEqual=  Utils.compareLists(CoverageRunner.resultMBUU, result);
         assertTrue(isEqual);
     }
 
@@ -65,8 +65,8 @@ public class CoverageRunnerTest {
     @Test
     public void testAufgabe2bMbuu()  {
         String datName = pathToExercises+"Aufgabe2b.md";
-        String[] elements= Parser.readData(datName);
-        List<List<Integer>> nums= Utils.mapToList(CoverageRunner.generateMBUU(Parser.numbers(elements)));
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+ "Aufgabe2bMbuu.md", CoverageRunner.mbuuRunner());
         List<List<Integer>> result = new ArrayList<>(Arrays.asList(
                 Arrays.asList(0, 0, 1, 0),
                 Arrays.asList(0, 1, 0, 0),
@@ -75,7 +75,7 @@ public class CoverageRunnerTest {
                 Arrays.asList(1, 1, 0, 1),
                 Arrays.asList(1, 1, 1, 0)
         ));
-        boolean isEqual= Utils.compareLists(nums, result);
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMBUU, result);
         assertTrue(isEqual);
 
     }
@@ -90,16 +90,9 @@ public class CoverageRunnerTest {
     @Test
     public void testAufgabe2bMcDc() {
         String datName = pathToExercises+"Aufgabe2b.md";
-        String[] elements= Parser.readData(datName);
-        CoverageRunner.findConditionsForMcDC(CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(3, Parser.numbers(elements))), Parser.numbers(elements));
-        Parser.writeData(pathToResults+"mcdcAufgabe2b.md", Parser.header(elements),
-                CoverageRunner.findConditionsForMcDC(
-                        CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(
-                                3, Parser.numbers(
-                                        elements))), Parser.numbers(elements)) );
-        String[] elemnts= Parser.readData(pathToResults+"mcdcAufgabe2b.md");
-        List<List<Integer>> nums= Parser.numbers(elemnts);
-        System.out.println("!!!!!" + nums +"!!!!!!");
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mcdcAufgabe2b.md", CoverageRunner.mcDcRunner());
+
         List<List<Integer>> result = new ArrayList<>(Arrays.asList(
                 Arrays.asList(0, 0, 1, 0),
                 Arrays.asList(1, 0, 0, 0),
@@ -107,7 +100,8 @@ public class CoverageRunnerTest {
                 Arrays.asList(1, 1, 1, 0)
         ));
 
-        boolean isEqual= Utils.compareLists(nums, result);
+
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMcDc, result);
         assertTrue(isEqual);
 
 
@@ -116,44 +110,33 @@ public class CoverageRunnerTest {
     @Test
     public void testExercise1Mbuu(){
         String datName = pathToExercises+"exercise1.md";
-        String[] elements= Parser.readData(datName);
-        List<List<Integer>> nums= Utils.mapToList(CoverageRunner.generateMBUU(Parser.numbers(elements)));
-        Parser.writeData(pathToResults+"mbuuExercise1.md", Parser.header(elements), nums);
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mbuuExercise1.md", CoverageRunner.mbuuRunner());
 
     }
 
     @Test
     public void testExercise2Mbuu() {
         String datName = pathToExercises+"exercise2.md";
-        String[] elements= Parser.readData(datName);
-        List<List<Integer>> nums= Utils.mapToList(CoverageRunner.generateMBUU(Parser.numbers(elements)));
-        Parser.writeData(pathToResults+"mbuuExercise2.md", Parser.header(elements), nums);
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mbuuExercise2.md", CoverageRunner.mbuuRunner());
 
     }
 
     @Test
     public void testExercise1Mcdc(){
         String datName = pathToExercises+"exercise1.md";
-        String[] elements= Parser.readData(datName);
-        CoverageRunner.findConditionsForMcDC(CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(3, Parser.numbers(elements))), Parser.numbers(elements));
-        Parser.writeData(pathToResults+"mcdcExercise1.md", Parser.header(elements),
-                CoverageRunner.findConditionsForMcDC(
-                        CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(
-                                3, Parser.numbers(
-                                        elements))), Parser.numbers(elements)) );
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mcdcExercise1.md", CoverageRunner.mcDcRunner() );
+
 
     }
 
     @Test
     public void testExercise2Mcdc() {
         String datName = pathToExercises+"exercise2.md";
-        String[] elements= Parser.readData(datName);
-        CoverageRunner.findConditionsForMcDC(CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(3, Parser.numbers(elements))), Parser.numbers(elements));
-        Parser.writeData(pathToResults+"mcdcExercise2.md", Parser.header(elements),
-                CoverageRunner.findConditionsForMcDC(
-                        CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(
-                                3, Parser.numbers(
-                                        elements))), Parser.numbers(elements)) );
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mcdcExercise2.md", CoverageRunner.mcDcRunner());
 
     }
 
@@ -164,18 +147,17 @@ public class CoverageRunnerTest {
     @Test
     public void testGenerateMcDC() {
         String datName = pathToExercises+"example.md";
-        String[] elements= Parser.readData(datName);
-        CoverageRunner.findConditionsForMcDC(CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(3, Parser.numbers(elements))), Parser.numbers(elements));
-        Parser.writeData(pathToResults+"mcdcTestResultOfExample.md", Parser.header(elements), CoverageRunner.findConditionsForMcDC(CoverageRunner.findTestCasesForMcDc(CoverageRunner.generateTestMCDC(3, Parser.numbers(elements))), Parser.numbers(elements)) );
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mcdcTestResultOfExample.md", CoverageRunner.mcDcRunner());
 
     }
 
     @Test
     public void testGenerateMBUU() {
         String datName = pathToExercises+"ex0.md";
-        String[] elements= Parser.readData(datName);
-        List<List<Integer>> nums= Utils.mapToList(CoverageRunner.generateMBUU(Parser.numbers(elements)));
-        Parser.writeData(pathToResults+"mbuuTestResultOfExample.md", Parser.header(elements), nums);
+        Parser.readData(datName);
+        Parser.writeData(pathToResults+"mbuuTestResultOfExample.md", CoverageRunner.mbuuRunner());
+
     }
 
     @Test

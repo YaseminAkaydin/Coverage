@@ -1,4 +1,8 @@
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,4 +90,25 @@ public class Utils {
             }
         }
     }
+
+    public static int countAllSigns(String datName){
+        int count=0;
+        Path filePath= Paths.get(datName);
+        try {
+            byte[] bytes= Files.readAllBytes(filePath);
+            count= bytes.length;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return count;
+
+    }
+
+
+
+
+
+
+
+
 }

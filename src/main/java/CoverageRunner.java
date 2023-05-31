@@ -2,9 +2,17 @@ import java.util.*;
 
 public class CoverageRunner {
 
-    public static Map<List<Integer>, Integer> generateMBUU(List<List<Integer>> numbers){
-        Map<List<Integer>, Integer> numberMap=Utils.convertListToMap(numbers) ;
-        Map<List<Integer>, Integer> cases= new HashMap();
+    static String basePathToWrite="/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/results/";
+    static Map<List<Integer>, Integer> numberMap= new HashMap<>();
+    static Map<List<Integer>, Integer> casesForMBUU= new HashMap<>();
+    static Map<List<Integer>, List<String>> casesForMcDc= new HashMap<>();
+    static List<List<Integer>> testCasesMcDc= new ArrayList<>();
+    static List<List<Integer>> resultMcDc= new ArrayList<>();
+    static List<List<Integer>> resultMBUU= new ArrayList<>();
+
+    public static void generateMBUU(){
+        numberMap=Utils.convertListToMap(Parser.numbersList) ;
+        casesForMBUU= new HashMap();
 
         for (List<Integer> key: numberMap.keySet()) {
             int result=numberMap.get(key);
@@ -24,8 +32,8 @@ public class CoverageRunner {
                             result2= numberMap.get(key2);
                         }
                         if(!(result==result2)){
-                            if (!cases.containsKey(key))
-                                cases.put(key, result);
+                            if (!casesForMBUU.containsKey(key))
+                                casesForMBUU.put(key, result);
 
                         }else {
 
@@ -35,22 +43,23 @@ public class CoverageRunner {
                 }
             }
         }
+        resultMBUU= Utils.mapToList(casesForMBUU);
 
-        return cases;
+        //return casesForMBUU;
 
     }
 
 
-    public static Map<List<Integer>, List<String>> generateTestMCDC(int numberCond, List<List<Integer>> numbers) {
-        Map<List<Integer>, Integer> numberMap = Utils.convertListToMap(numbers);
+    public static void generateTestMCDC() {
+         numberMap = Utils.convertListToMap(Parser.numbersList);
         int length = (int) numberMap.keySet().stream().count();
-        Map<List<Integer>, List<String>> cases = new HashMap();
+        casesForMcDc = new HashMap();
 
 
         String condition = "";
-        int limit= (int) (Math.pow(2, numberCond)/2);
+        int limit= (int) (Math.pow(2, Parser.numColums)/2);
 
-        for (int i = 0; i < numberCond; i++) {
+        for (int i = 0; i < Parser.numColums; i++) {
             Map<List<Integer>, Integer> tmpNumbers = new HashMap(numberMap);
 
 
@@ -73,15 +82,15 @@ public class CoverageRunner {
                     int result2 = numberMap.get(tmp);
 
                     if (result != result2) {
-                        List<String> existingValueListForKey = cases.get(key);
-                        List<String> existingValueListForTmp = cases.get(tmp);
+                        List<String> existingValueListForKey = casesForMcDc.get(key);
+                        List<String> existingValueListForTmp = casesForMcDc.get(tmp);
 
                         if (existingValueListForKey != null) {
                             existingValueListForKey.add(condition + j);
                         } else {
                             List<String> newValueList = new ArrayList<>();
                             newValueList.add(condition + j);
-                            cases.put(key, newValueList);
+                            casesForMcDc.put(key, newValueList);
                         }
 
                         if (existingValueListForTmp != null) {
@@ -89,7 +98,7 @@ public class CoverageRunner {
                         } else {
                             List<String> newValueList = new ArrayList<>();
                             newValueList.add(condition + j);
-                            cases.put(tmp, newValueList);
+                            casesForMcDc.put(tmp, newValueList);
                         }
                         tmpNumbers.remove(key);
                         tmpNumbers.remove(tmp);
@@ -102,21 +111,20 @@ public class CoverageRunner {
         }
 
 
-        return cases;
+        //return casesForMcDc;
     }
 
-    public static List<List<Integer>> findTestCasesForMcDc(Map<List<Integer>, List<String>> cases){
+    public static void findTestCasesForMcDc(){
         List<Integer> keyWithLongestValue = null;
         int maxLength = 0;
         List<Integer> numConditions=new ArrayList<>();
-        if (!cases.isEmpty()) {
-            numConditions = cases.keySet().iterator().next();
+        if (!casesForMcDc.isEmpty()) {
+            numConditions = casesForMcDc.keySet().iterator().next();
         }
 
 
-
-        List<List<Integer>> testCases= new ArrayList<>();
-        Map<List<Integer>, List<String>> tmpCases= new HashMap<>(cases);
+         testCasesMcDc= new ArrayList<>();
+        Map<List<Integer>, List<String>> tmpCases= new HashMap<>(casesForMcDc);
 
         for (Map.Entry<List<Integer>, List<String>> entry : tmpCases.entrySet()) {
             List<String> value = entry.getValue();
@@ -132,13 +140,13 @@ public class CoverageRunner {
 
 
 
-        testCases.add(keyWithLongestValue);
+        testCasesMcDc.add(keyWithLongestValue);
         for (String value : new ArrayList<>(tmpCases.get(keyWithLongestValue))) {
             for (List<Integer> val : new ArrayList<>(tmpCases.keySet())) {
                 List<String> KeValues = tmpCases.get(val);
                 if (KeValues.contains(value)) {
-                    if(!(testCases.contains(val))){
-                        testCases.add(val);
+                    if(!(testCasesMcDc.contains(val))){
+                        testCasesMcDc.add(val);
                         tmpCases.remove(val);
                     }
                 }
@@ -146,7 +154,7 @@ public class CoverageRunner {
         }
 
         char missingLetter='\0';
-        List<String> value = cases.get(keyWithLongestValue); // Wert des Schlüssels erhalten
+        List<String> value = casesForMcDc.get(keyWithLongestValue); // Wert des Schlüssels erhalten
         int length = value.size();
         char limit= (char) ('A'+ length);
         if(length!=numConditions.size()){
@@ -166,8 +174,8 @@ public class CoverageRunner {
             for (List<Integer> val : new ArrayList<>(tmpCases.keySet())){
                 List<String> KeValues = tmpCases.get(val);
                 if (KeValues.contains(Character.toString(missingLetter)+"1")) {
-                    if(!(testCases.contains(val))){
-                        testCases.add(val);
+                    if(!(testCasesMcDc.contains(val))){
+                        testCasesMcDc.add(val);
                         tmpCases.remove(val);
                     }
                 }
@@ -177,56 +185,72 @@ public class CoverageRunner {
 
         }
 
-        return testCases;
+        //return testCasesMcDc;
 
     }
 
 
-    public static List<List<Integer>> findConditionsForMcDC(List<List<Integer>> testCases, List<List<Integer>> numbers){
-        List<List<Integer>> result= new ArrayList<>(testCases);
-        List<List<Integer>> cases= new ArrayList<>();
-        Map<List<Integer>, Integer> numberMap= Utils.convertListToMap(numbers);
+    public static void findConditionsForMcDC(){
+        List<List<Integer>> result= new ArrayList<>(testCasesMcDc);
+        resultMcDc= new ArrayList<>();
+        numberMap= Utils.convertListToMap(Parser.numbersList);
         for (List<Integer> resultList: result) {
             if(numberMap.containsKey(resultList)){
                 int value= numberMap.get(resultList);
                 List<Integer> tmp = new ArrayList<>(resultList);
                 tmp.add(value);
-                cases.add(tmp);
+                resultMcDc.add(tmp);
 
 
             }
         }
-        return cases;
+        //return resultMcDc;
 
+    }
+
+    public static List<List<Integer>> mcDcRunner(){
+        generateTestMCDC();
+        findTestCasesForMcDc();
+        findConditionsForMcDC();
+        return resultMcDc;
+    }
+
+    public static List<List<Integer>> mbuuRunner(){
+        generateMBUU();
+        return resultMBUU;
     }
 
 
 
     public static void generateList(List<String> pathNames, boolean coverage) {
         int counter= 0;
-        String basePathToWrite="/Users/yaseminakaydin/Desktop/exercises/Results/";
         for (String path: pathNames) {
             if(coverage){
-                String[] elements= Parser.readData(path);
+                //String[] elements= Parser.readData(path);
                 String fileName= Utils.extractFileName(path);
-                Parser.writeData(basePathToWrite + fileName + "McDcTest.md" ,
-                        Parser.header(elements),findConditionsForMcDC(
-                                findTestCasesForMcDc(
-                                        generateTestMCDC(3, Parser.numbers(elements))), Parser.numbers(elements)) );
+                Parser.writeData(basePathToWrite + fileName + "McDcTest.md" , mcDcRunner());
 
                 counter++;
 
             } else {
-                String[] elements= Parser.readData(path);
+                //String[] elements= Parser.readData(path);
                 String fileName= Utils.extractFileName(path);
-                List<List<Integer>> nums= Utils.mapToList(generateMBUU(Parser.numbers(elements)));
-                Parser.writeData(basePathToWrite + fileName + "MBUUTest.md", Parser.header(elements), nums);
+                Parser.writeData(basePathToWrite+fileName+"MBUUTest.md", mbuuRunner());
+                //List<List<Integer>> nums= Utils.mapToList(generateMBUU());
+                //Parser.writeData(basePathToWrite + fileName + "MBUUTest.md", nums);
             }
 
 
 
         }
 
+
+    }
+
+    public static void main(String[] args) {
+        Parser.readData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/exercises/ex2.md");
+        Parser.writeData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/results/Test2.md", mcDcRunner());
+        Parser.writeData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/results/Test3.md",mbuuRunner() );
 
     }
 }
