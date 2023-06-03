@@ -44,10 +44,6 @@ public class ParserTest {
         Assertions.assertEquals(8, Parser.numbersList.size());
         Assertions.assertEquals(2, Parser.header.size());
 
-        //anzahl der Elemente gleich ?
-        // ob elements nicht null ist bei allen ex.md Dateien in einer Schleife
-        //Fehlerfall, wenn da andere Zahlen als 0 und 1 vorkommen
-        //Test für die IO Exception
 
     }
 
@@ -79,6 +75,7 @@ public class ParserTest {
     }
 
 
+    //TODO
     @Test
     public void testWriteData_IOException(){
         String path = "example.md";
@@ -92,6 +89,24 @@ public class ParserTest {
             Parser.writeData(String.valueOf(nonWritablePath),CoverageRunner.mcDcRunner() );
 
         });
+    }
+
+    @Test
+    public void testForNumberCond(){
+        String path= "ex8.md";
+        Parser.readData(pathToExercises+path);
+        Assertions.assertEquals(4, Parser.numColums);
+
+    }
+
+    @Test
+    public void testWrongValues(){
+        String path= "ex3.md";
+        Assertions.assertThrows(IllegalArgumentException.class, ()->{
+            Parser.readData(pathToExercises+path);
+        });
+
+
     }
 
 

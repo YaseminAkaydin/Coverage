@@ -247,10 +247,5 @@ public class CoverageRunner {
 
     }
 
-    public static void main(String[] args) {
-        Parser.readData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/exercises/ex2.md");
-        Parser.writeData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/results/Test2.md", mcDcRunner());
-        Parser.writeData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/results/Test3.md",mbuuRunner() );
 
-    }
 }

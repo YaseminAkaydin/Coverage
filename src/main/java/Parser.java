@@ -59,6 +59,11 @@ public class Parser {
             rows= Arrays.asList(s.split("\n"));
             header.addAll(rows.subList(0, 2));
             numbers.addAll(rows.subList(2, rows.size()));
+            for (String nums: numbers) {
+                if(!(nums.matches("0")) || !(nums.matches("1")) ){
+                    throw new IllegalArgumentException("Falsche Werte in der Markdown-Datei!");
+                }
+            }
             numColums= (int) (Math.log(rows.size()-2) / Math.log(2));
             numbersList= extractNumbers(numbers);
             System.out.println(numbersList.size());
@@ -138,9 +143,5 @@ public class Parser {
 
     }
 
-    public static void main(String[] args) {
-        readData("/Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/exercises/ex0.md");
 
-
-    }
 }
