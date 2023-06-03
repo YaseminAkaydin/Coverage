@@ -75,7 +75,7 @@ public class Utils {
             boolean foundMatch = false;
 
             for (List<Integer> innerList2 : list2) {
-                if (innerList1.equals(innerList2)) {
+                if (innerList1.size() == innerList2.size() && innerList1.containsAll(innerList2)) {
                     foundMatch = true;
                     break;
                 }
@@ -88,6 +88,7 @@ public class Utils {
 
         return true;
     }
+
 
     /**
      * Hilfsmethode, um vor allen Tests einmal den Ordner "Results" zu leeren

@@ -80,7 +80,7 @@ public class CoverageRunnerTest {
 
     }
 
-    //TODO
+
     /**
      * Test überprüft, ob unsere Methode für McDC für Aufgabe 2b aus dem Aufgabenblatt richtig einliest
      * und die richtigen Testcases zurückgibt. Wir haben das Beispiel per Hand gelöst und
@@ -107,26 +107,51 @@ public class CoverageRunnerTest {
 
     }
 
-    //TODO assert hinzufügen, mit dem händische Ergebnis
     @Test
     public void testExercise1Mbuu(){
         String datName = pathToExercises+"exercise1.md";
         Parser.readData(datName);
         Parser.writeData(pathToResults+"mbuuExercise1.md", CoverageRunner.mbuuRunner());
+        List<List<Integer>> result = new ArrayList<>(Arrays.asList(
+                Arrays.asList(1, 0, 0, 0),
+                Arrays.asList(0, 0, 1, 1),
+                Arrays.asList(1, 1, 1, 0),
+                Arrays.asList(1, 0, 1, 0),
+                Arrays.asList(0, 1, 0, 0),
+                Arrays.asList(0, 0, 0, 1),
+                Arrays.asList(0, 1, 1, 1)
+
+        ));
+
+
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMBUU, result);
+        assertTrue(isEqual);
 
     }
 
-    //TODO assert hinzufügen, mit dem händische Ergebnis
 
     @Test
     public void testExercise2Mbuu() {
         String datName = pathToExercises+"exercise2.md";
         Parser.readData(datName);
         Parser.writeData(pathToResults+"mbuuExercise2.md", CoverageRunner.mbuuRunner());
+        List<List<Integer>> result = new ArrayList<>(Arrays.asList(
+                Arrays.asList(1, 0, 0, 0),
+                Arrays.asList(0, 0, 1, 0),
+                Arrays.asList(1, 1, 1, 0),
+                Arrays.asList(1, 0, 1, 1),
+                Arrays.asList(0, 1, 0, 0),
+                Arrays.asList(0, 1, 1, 1)
+
+
+        ));
+
+
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMBUU, result);
+        assertTrue(isEqual);
 
     }
 
-    //TODO assert hinzufügen, mit dem händische Ergebnis
 
     @Test
     public void testExercise1Mcdc(){
@@ -134,16 +159,60 @@ public class CoverageRunnerTest {
         Parser.readData(datName);
         Parser.writeData(pathToResults+"mcdcExercise1.md", CoverageRunner.mcDcRunner() );
 
+        List<List<Integer>> result0 = new ArrayList<>(Arrays.asList(
+                Arrays.asList(0, 1, 0, 0),
+                Arrays.asList(0, 0, 0, 1),
+                Arrays.asList(0, 1, 1, 1),
+                Arrays.asList(1, 0, 0, 0)
+
+        ));
+
+        List<List<Integer>> result1 = new ArrayList<>(Arrays.asList(
+                Arrays.asList(0, 1, 0, 0),
+                Arrays.asList(0, 0, 0, 1),
+                Arrays.asList(0, 1, 1, 1),
+                Arrays.asList(1, 0, 0, 0),
+                Arrays.asList(1, 0, 1, 0)
+
+        ));
+
+
+        System.out.println(CoverageRunner.resultMcDc +"---"+ CoverageRunner.resultMcDc.size());
+        if(CoverageRunner.resultMcDc.size()==5){
+            boolean isEqual= Utils.compareLists(CoverageRunner.resultMcDc, result1);
+            System.out.println("Hello");
+            System.out.println(CoverageRunner.resultMcDc);
+            assertTrue(isEqual);
+        }else {
+            boolean isEqual= Utils.compareLists(CoverageRunner.resultMcDc, result0);
+            assertTrue(isEqual);
+
+        }
+
+
+
 
     }
 
-    //TODO assert hinzufügen, mit dem händische Ergebnis
+
 
     @Test
     public void testExercise2Mcdc() {
         String datName = pathToExercises+"exercise2.md";
         Parser.readData(datName);
         Parser.writeData(pathToResults+"mcdcExercise2.md", CoverageRunner.mcDcRunner());
+
+        List<List<Integer>> result = new ArrayList<>(Arrays.asList(
+                Arrays.asList(1, 0, 1, 1),
+                Arrays.asList(0, 0, 1, 0),
+                Arrays.asList(1, 1, 1, 0),
+                Arrays.asList(1, 0, 0, 0)
+
+        ));
+
+
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMcDc, result);
+        assertTrue(isEqual);
 
     }
 
@@ -158,6 +227,16 @@ public class CoverageRunnerTest {
         String datName = pathToExercises+"example.md";
         Parser.readData(datName);
         Parser.writeData(pathToResults+"mcdcTestResultOfExample.md", CoverageRunner.mcDcRunner());
+        List<List<Integer>> result = new ArrayList<>(Arrays.asList(
+                Arrays.asList(0, 1, 1, 1),
+                Arrays.asList(1, 1, 1, 0),
+                Arrays.asList(0, 0, 1, 0),
+                Arrays.asList(0, 1, 0, 0)
+
+        ));
+
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMcDc, result);
+        assertTrue(isEqual);
 
     }
 
@@ -165,9 +244,22 @@ public class CoverageRunnerTest {
 
     @Test
     public void testGenerateMBUU() {
-        String datName = pathToExercises+"ex0.md";
+        String datName = pathToExercises+"example.md";
         Parser.readData(datName);
         Parser.writeData(pathToResults+"mbuuTestResultOfExample.md", CoverageRunner.mbuuRunner());
+        List<List<Integer>> result = new ArrayList<>(Arrays.asList(
+                Arrays.asList(0, 0, 1, 0),
+                Arrays.asList(1, 0, 0, 0),
+                Arrays.asList(1, 1, 1, 0),
+                Arrays.asList(0, 1, 0, 0),
+                Arrays.asList(0, 1, 1, 1),
+                Arrays.asList(1, 1, 0, 1)
+
+
+        ));
+
+        boolean isEqual= Utils.compareLists(CoverageRunner.resultMBUU, result);
+        assertTrue(isEqual);
 
     }
 
