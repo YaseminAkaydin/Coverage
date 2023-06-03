@@ -107,6 +107,7 @@ public class CoverageRunnerTest {
 
     }
 
+    //TODO assert hinzufügen, mit dem händische Ergebnis
     @Test
     public void testExercise1Mbuu(){
         String datName = pathToExercises+"exercise1.md";
@@ -114,6 +115,8 @@ public class CoverageRunnerTest {
         Parser.writeData(pathToResults+"mbuuExercise1.md", CoverageRunner.mbuuRunner());
 
     }
+
+    //TODO assert hinzufügen, mit dem händische Ergebnis
 
     @Test
     public void testExercise2Mbuu() {
@@ -123,6 +126,8 @@ public class CoverageRunnerTest {
 
     }
 
+    //TODO assert hinzufügen, mit dem händische Ergebnis
+
     @Test
     public void testExercise1Mcdc(){
         String datName = pathToExercises+"exercise1.md";
@@ -131,6 +136,8 @@ public class CoverageRunnerTest {
 
 
     }
+
+    //TODO assert hinzufügen, mit dem händische Ergebnis
 
     @Test
     public void testExercise2Mcdc() {
@@ -144,6 +151,8 @@ public class CoverageRunnerTest {
 
 
 
+    //TODO assert hinzufügen, mit dem händische Ergebnis
+
     @Test
     public void testGenerateMcDC() {
         String datName = pathToExercises+"example.md";
@@ -151,6 +160,8 @@ public class CoverageRunnerTest {
         Parser.writeData(pathToResults+"mcdcTestResultOfExample.md", CoverageRunner.mcDcRunner());
 
     }
+
+    //TODO assert hinzufügen, mit dem händische Ergebnis
 
     @Test
     public void testGenerateMBUU() {

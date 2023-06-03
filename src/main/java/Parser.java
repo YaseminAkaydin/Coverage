@@ -26,7 +26,7 @@ public class Parser {
             lines.add(header.get(0));
             lines.add(header.get(1));
 
-            // Zahlen hinzufügen
+
             for (List<Integer> innerList : numbers) {
                 lines.add("| " + String.join(" | ", innerList.stream().map(Object::toString).toArray(String[]::new)) + " |");
 
@@ -49,8 +49,6 @@ public class Parser {
      * @param datName
      */
     public static void readData(String datName) {
-        //String text= new String();
-        //String[] elements= new String[Utils.countAllSigns(datName)];
         List<String > rows= new ArrayList<>();
 
         try {
@@ -59,19 +57,26 @@ public class Parser {
             rows= Arrays.asList(s.split("\n"));
             header.addAll(rows.subList(0, 2));
             numbers.addAll(rows.subList(2, rows.size()));
-            for (String nums: numbers) {
-                if(!(nums.matches("0")) || !(nums.matches("1")) ){
-                    throw new IllegalArgumentException("Falsche Werte in der Markdown-Datei!");
+            System.out.println("NUmmern: "+ numbers);
+
+            for (String nums : numbers) {
+                String trimmedNums = nums.trim();
+                String[] numArray = trimmedNums.split("\\|");
+                for (String num : numArray) {
+                    String trimmedNum = num.trim();
+                    for (char c : trimmedNum.toCharArray()) {
+                        if (c != '0' && c != '1') {
+                            throw new IllegalArgumentException("Falsche Werte in der Markdown-Datei!");
+                        }
+                    }
                 }
             }
+
             numColums= (int) (Math.log(rows.size()-2) / Math.log(2));
             numbersList= extractNumbers(numbers);
             System.out.println(numbersList.size());
 
-            //String s = Files.readString(Path.of(datName));
-//            s.split("\\| "+ "\r\n" + " \\|");
-//            text = s.replace("[", "").replace("]", "").replace(",", "");//.replace("---", "");
-//            elements = text.split("\\s+");
+
 
 
         } catch (IOException e) {
@@ -79,43 +84,18 @@ public class Parser {
 
         }
 
-        //return elements;
+
 
     }
 
-//    public static List<List<Integer>> numbers(String[] elements){
-//        List<Integer> numbers = new ArrayList<>();
-//        for (String element : elements) {
-//            if (element.matches("\\d+")) {
-//                if(Integer.parseInt(element)==0 || Integer.parseInt(element)==1){
-//                    numbers.add(Integer.parseInt(element));
-//                }else {
-//                    throw new IllegalArgumentException("Werte in der MarkdownFile sind nicht korrekt!");
-//                }
-//            }
-//        }
-//
-//        //TODO Methode, die die Anzahl der Spalten in einer tabelle zählt, 4 bei 4 Spalten usw.
-//        //auch wichtig bei der Header Methode!!!
-//        List<List<Integer>> result = new ArrayList<>();
-//        int index = 0;
-//        int columns=3;
-//        while (index + columns+1 <= numbers.size()) {
-//            List<Integer> sublist = numbers.subList(index, index + columns+1);
-//            result.add(sublist);
-//            index += columns+1;
-//        }
-//        return result;
-//    }
-//
-//
-//
-//    public static List<String> header(String[] elements){
-//        String[] header= Arrays.copyOfRange(elements, 0, 9);
-//        List<String> headerLIst= Arrays.asList(header);
-//        return headerLIst;
-//    }
 
+    /**
+     * Hilfsmethode, um eine Liste von Listen von Integern zu erzeugen, in der jeder Eintrag eine Zeile
+     * der Markdown-Tabelle darstellt. Hier spielt die Anzahl der Spalten in der Tabelle eine wichtige Rolle,
+     * da die größe der einzelnen Einträge in der Liste mit der Anzahl der Spalten wachsen muss
+     * @param numbers, alle extrahierten Zahlen aus der Markdown-Tablle
+     * @return, Liste von Listen von Integern, wobei jeder Listeneintrag eine Zeile der Markdown-Tabelle darstellt
+     */
     public static List<List<Integer>> extractNumbers(List<String> numbers) {
         List<Integer> nums = new ArrayList<>();
         for (String element : numbers) {

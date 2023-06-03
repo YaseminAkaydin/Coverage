@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,19 +17,6 @@ public class ParserTest {
     static String pathToResults= "//Users/yaseminakaydin/Desktop/SE1Praktikum3/CertifiedTester3/src/test/results/";
 
 
-    @BeforeAll
-    public static void deleteResultsFiles(){
-        String folderPath = pathToResults;
-
-        File folder = new File(folderPath);
-
-        if (folder.exists() && folder.isDirectory()) {
-            Utils.deleteFiles(folder);
-            System.out.println("Alle Dateien im Ordner wurden gelöscht.");
-        } else {
-            System.out.println("Der angegebene Ordner existiert nicht.");
-        }
-    }
 
     /**
      * Methode testet, ob die Headerlänge genau 9 entspricht (Bedingungen plus Markdown-Trennzeichen)
@@ -38,8 +26,8 @@ public class ParserTest {
     @Test
     public void testReadDataFromFileCountElements() throws IOException {
         Parser.readData(pathToExercises+ "ex2.md");
-        List<String> header= Parser.header;
-        List<List<Integer>> numbers= Parser.numbersList;
+        System.out.println("Parser Nummern:"+ Parser.numbers);
+        System.out.println("Parser Header:"+Parser.header);
 
         Assertions.assertEquals(8, Parser.numbersList.size());
         Assertions.assertEquals(2, Parser.header.size());
@@ -68,11 +56,7 @@ public class ParserTest {
 
     }
 
-    //TODO
-    @Test //(expected = IOException.class)
-    public void testWriteDaa_IOException() {
 
-    }
 
 
     //TODO
@@ -107,6 +91,13 @@ public class ParserTest {
         });
 
 
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        Parser.numbers.clear();
+        Parser.header.clear();
+        Parser.numColums=0;
     }
 
 

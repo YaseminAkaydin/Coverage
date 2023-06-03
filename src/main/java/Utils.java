@@ -8,8 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Klasse für alle Hilfsmethode, die beim CoverageRunner sowie beim Parser benötigt werden, um gewissen Umwandlungen
+ * oder Extrahierungen von Sachen durchzuführen
+ */
 public class Utils {
 
+
+    /**
+     * Hilfsmethode, die eine Liste zu einer Map umformt. Der Key stellt hier die Werte der Bedingungen dar und der
+     * Value ist das Ergebnis einer Zeile.
+     * @param numbers, Liste von Listen von Integern, die die einzelnen EInträge in der Tabelle darstellen
+     * @return, eine Map, die jede Zeile einer Markdosn-Datei mit Key-Value-Paaren repräsentiert
+     */
     public static Map<List<Integer>, Integer> convertListToMap(List<List<Integer>> numbers){
         Map<List<Integer>, Integer> map = new HashMap<>();
 
@@ -33,6 +44,11 @@ public class Utils {
 
     }
 
+    /**
+     * Hilfsmethode, um den Namen der Markdown-Datei zu extrahieren vom absoluten Pfad
+     * @param path, Ausgangspfad, in der sich die Markdown-Datei befindet
+     * @return, Name der Md-Datei
+     */
     public static String extractFileName(String path) {
         int lastIndex = path.lastIndexOf("/");
 
@@ -91,18 +107,18 @@ public class Utils {
         }
     }
 
-    public static int countAllSigns(String datName){
-        int count=0;
-        Path filePath= Paths.get(datName);
-        try {
-            byte[] bytes= Files.readAllBytes(filePath);
-            count= bytes.length;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return count;
-
-    }
+//    public static int countAllSigns(String datName){
+//        int count=0;
+//        Path filePath= Paths.get(datName);
+//        try {
+//            byte[] bytes= Files.readAllBytes(filePath);
+//            count= bytes.length;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return count;
+//
+//    }
 
 
 

@@ -10,6 +10,11 @@ public class CoverageRunner {
     static List<List<Integer>> resultMcDc= new ArrayList<>();
     static List<List<Integer>> resultMBUU= new ArrayList<>();
 
+
+    /**
+     * Methode generiert die Testcases, indem MBÜÜ angewendet wird. Es wird eine Liste von den
+     * Cases zurückgegeben.
+     */
     public static void generateMBUU(){
         numberMap=Utils.convertListToMap(Parser.numbersList) ;
         casesForMBUU= new HashMap();
@@ -50,6 +55,9 @@ public class CoverageRunner {
     }
 
 
+    /**
+     * Methode, um alle McDc TestCases zu erzeugen.
+     */
     public static void generateTestMCDC() {
          numberMap = Utils.convertListToMap(Parser.numbersList);
         int length = (int) numberMap.keySet().stream().count();
@@ -114,6 +122,9 @@ public class CoverageRunner {
         //return casesForMcDc;
     }
 
+    /**
+     * Hilfsmethode für McDc, um alle TestCases, die signifikant sind, herauszufiltern
+     */
     public static void findTestCasesForMcDc(){
         List<Integer> keyWithLongestValue = null;
         int maxLength = 0;
@@ -190,6 +201,10 @@ public class CoverageRunner {
     }
 
 
+    /**
+     * Hilfsmethode für McDC, um die signifikanten Testfälle zu den einzelnen Bedingungen
+     * herauszufiltern
+     */
     public static void findConditionsForMcDC(){
         List<List<Integer>> result= new ArrayList<>(testCasesMcDc);
         resultMcDc= new ArrayList<>();
@@ -208,6 +223,10 @@ public class CoverageRunner {
 
     }
 
+    /**
+     * Methode, um alle relevanten Schritte für McDc auszuführen und das Ergebnis zurückzugeben.
+     * @return
+     */
     public static List<List<Integer>> mcDcRunner(){
         generateTestMCDC();
         findTestCasesForMcDc();
@@ -215,13 +234,23 @@ public class CoverageRunner {
         return resultMcDc;
     }
 
+
+    /**
+     * Methode, um alle relevanten Schritte für MBUU durchzuführen und das Ergebnis zurückzugeben.
+     * @return
+     */
     public static List<List<Integer>> mbuuRunner(){
         generateMBUU();
         return resultMBUU;
     }
 
 
-
+    /**
+     * Methode erzeugt für mehrere Tabellen entweder alle MBÜÜ Fälle oder alle McDC Fälle und erzeugt für
+     * jede angegebene Tabelle eine Markdown-Datei
+     * @param pathNames, Liste der Pafde zu den Tabellen
+     * @param coverage, falls true, wird McDc angewendet, falls false=MBÜÜ
+     */
     public static void generateList(List<String> pathNames, boolean coverage) {
         int counter= 0;
         for (String path: pathNames) {
